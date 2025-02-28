@@ -9,9 +9,9 @@ import configparser
 from pathlib import Path
 from datetime import datetime
 
-# Fix the import to use absolute import
-import __init__
-from core import (
+# Use proper absolute imports
+from sitejuicer import __version__
+from sitejuicer.core import (
     fetch_content, save_markdown, copy_to_clipboard,
     format_markdown, convert_to_html, convert_to_json,
     strip_jina_metadata
@@ -139,7 +139,7 @@ def main():
     
     # Show version and exit if requested
     if args.version:
-        print(f"SiteJuicer {__init__.__version__}")
+        print(f"SiteJuicer {__version__}")
         return 0
     
     # Handle API key operations
