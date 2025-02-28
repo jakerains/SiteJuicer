@@ -5,6 +5,18 @@ All notable changes to SiteJuicer will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2025-02-27
+
+### Changed
+- Updated README.md to focus on end-user experience
+- Simplified installation instructions
+- Improved documentation clarity
+- Added automatic deployment to PyPI using GitHub Actions
+
+### Added
+- GitHub Actions workflow for automatic PyPI deployment on version tags
+- Version consistency check for pull requests
+
 ## [0.5.0] - 2023-10-15
 
 ### Added

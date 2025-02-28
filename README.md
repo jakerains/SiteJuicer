@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<!-- Banner image will go here. Create one at docs/assets/sitejuicer-banner.png -->
+![SiteJuicer Banner](docs/assets/sitejuicer-banner.jpg)
 
 [![PyPI version](https://img.shields.io/pypi/v/sitejuicer.svg)](https://pypi.org/project/sitejuicer/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/sitejuicer.svg)](https://pypi.org/project/sitejuicer/)
@@ -49,14 +49,11 @@ sitejuicer https://example.com --format html
 ## 📦 Installation
 
 ```bash
-# From PyPI (recommended)
+# Install from PyPI
 pip install sitejuicer
 
 # Optional UI components
 pip install "sitejuicer[ui]"
-
-# For developers
-pip install "sitejuicer[dev]"
 ```
 
 ### Installation with Optional Components
@@ -73,14 +70,6 @@ pip install sitejuicer[ui]
 
 # For all features
 pip install sitejuicer[all]
-```
-
-### From Source
-
-```bash
-git clone https://github.com/jakerains/sitejuicer.git
-cd sitejuicer
-pip install -e .
 ```
 
 ## 📋 Usage
@@ -236,49 +225,13 @@ For detailed information about the API integration and authentication, see:
 - [Jina API Integration](docs/jina_api_integration.md)
 - [Jina API Authentication](docs/jina_api_authentication.md)
 
-## 🐳 Docker Support
-
-SiteJuicer can be run in Docker containers for isolated deployment. See [Docker Usage](docs/docker-usage.md) for details.
-
-## 🛠️ For Developers
-
-### Building and Publishing to PyPI
-
-SiteJuicer is available on PyPI, which means users can install it with `pip install sitejuicer`. If you're a developer wanting to build and publish updates to PyPI, follow these steps:
-
-1. **Update version number** in `sitejuicer/__init__.py`
-
-2. **Build the distribution packages**:
-   ```bash
-   python -m pip install --upgrade build twine
-   python -m build
-   ```
-
-3. **Check your distribution packages**:
-   ```bash
-   twine check dist/*
-   ```
-
-4. **Upload to TestPyPI** (optional but recommended):
-   ```bash
-   twine upload --repository-url https://test.pypi.org/legacy/ dist/*
-   ```
-
-5. **Install from TestPyPI** to verify (in a new environment):
-   ```bash
-   pip install --index-url https://test.pypi.org/simple/ sitejuicer
-   ```
-
-6. **Upload to PyPI**:
-   ```bash
-   twine upload dist/*
-   ```
-
-For more detailed instructions on packaging Python projects, see the [Python Packaging User Guide](https://packaging.python.org/tutorials/packaging-projects/).
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 

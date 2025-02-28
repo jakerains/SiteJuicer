@@ -4,9 +4,9 @@ on:
   release:
     types: [created]
   # Uncomment the following to also trigger on version tags
-  # push:
-  #   tags:
-  #     - 'v*'
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   deploy:

@@ -1,0 +1,33 @@
+name: Version Check
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'sitejuicer/__init__.py'
+      - 'CHANGELOG.md'
+
+jobs:
+  version-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Check version consistency
+      run: |
+        # Extract version from __init__.py
+        INIT_VERSION=$(grep -oP "__version__ = ['\"]\\K[^'\"]*" sitejuicer/__init__.py)
+        
+        # Check if version exists in CHANGELOG.md
+        if ! grep -q "## \[$INIT_VERSION\]" CHANGELOG.md; then
+          echo "ERROR: Version $INIT_VERSION in __init__.py not found in CHANGELOG.md"
+          echo "Please update CHANGELOG.md with the new version"
+          exit 1
+        fi
+        
+        echo "Version consistency check passed: $INIT_VERSION" 
