@@ -11,14 +11,6 @@ import urllib.parse
 from urllib.parse import quote, urljoin
 from datetime import datetime
 
-# Add pyperclip import for clipboard functionality
-try:
-    import pyperclip
-    CLIPBOARD_AVAILABLE = True
-except ImportError:
-    CLIPBOARD_AVAILABLE = False
-
-
 def fetch_content(url, options=None):
     """
     Fetch content from a URL using the Jina Reader API.
@@ -416,26 +408,4 @@ def _strip_metadata_headers(content):
         if not metadata_section:
             result_lines.append(line)
     
-    return '\n'.join(result_lines)
-
-
-def copy_to_clipboard(content):
-    """
-    Copy content to the system clipboard
-    
-    Args:
-        content (str): The content to copy to clipboard
-        
-    Returns:
-        bool: True if successful, False otherwise
-    """
-    if not CLIPBOARD_AVAILABLE:
-        print("Clipboard functionality requires pyperclip. Install with: pip install pyperclip", file=sys.stderr)
-        return False
-    
-    try:
-        pyperclip.copy(content)
-        return True
-    except Exception as e:
-        print(f"Error copying to clipboard: {e}", file=sys.stderr)
-        return False 
+    return '\n'.join(result_lines) 

@@ -12,7 +12,7 @@ from datetime import datetime
 # Use proper absolute imports
 from sitejuicer import __version__
 from sitejuicer.core import (
-    fetch_content, save_markdown, copy_to_clipboard,
+    fetch_content, save_markdown,
     format_markdown, convert_to_html, convert_to_json,
     strip_jina_metadata
 )
@@ -42,8 +42,42 @@ def save_api_key(api_key):
     with open(config_file, "w") as f:
         config.write(f)
     
-    # Set restrictive permissions on the config file
-    os.chmod(config_file, 0o600)
+    # Set restrictive permissions on the config file (platform-specific)
+    # Windows has a different permission model, so we only do this on Unix-like systems
+    if os.name != 'nt':  # 'nt' is the OS name for Windows
+        os.chmod(config_file, 0o600)
+    
+    return str(config_file)
+
+
+def save_pypi_token(token):
+    """Save the PyPI token to a configuration file."""
+    config_dir = Path.home() / ".sitejuicer"
+    config_dir.mkdir(exist_ok=True)
+    
+    config_file = config_dir / "config.ini"
+    
+    config = configparser.ConfigParser()
+    
+    # Load existing config if it exists
+    if config_file.exists():
+        config.read(config_file)
+    
+    # Ensure the section exists
+    if "pypi" not in config:
+        config["pypi"] = {}
+    
+    # Update the token
+    config["pypi"]["token"] = token
+    
+    # Save the config
+    with open(config_file, "w") as f:
+        config.write(f)
+    
+    # Set restrictive permissions on the config file (platform-specific)
+    # Windows has a different permission model, so we only do this on Unix-like systems
+    if os.name != 'nt':  # 'nt' is the OS name for Windows
+        os.chmod(config_file, 0o600)
     
     return str(config_file)
 
@@ -62,6 +96,42 @@ def get_api_key():
         return config["api"]["jina_key"]
     except (KeyError, configparser.NoSectionError):
         return None
+
+
+def get_pypi_token():
+    """Retrieve the PyPI token from the configuration file."""
+    config_file = Path.home() / ".sitejuicer" / "config.ini"
+    
+    if not config_file.exists():
+        return None
+    
+    config = configparser.ConfigParser()
+    config.read(config_file)
+    
+    try:
+        return config["pypi"]["token"]
+    except (KeyError, configparser.NoSectionError):
+        return None
+
+
+def generate_pypirc(token):
+    """Generate a .pypirc file with the saved token."""
+    pypirc_path = Path.home() / ".pypirc"
+    
+    content = f"""[pypi]
+username = __token__
+password = {token}
+"""
+    
+    # Write the file
+    with open(pypirc_path, "w") as f:
+        f.write(content)
+    
+    # Set restrictive permissions
+    if os.name != 'nt':  # Only on Unix-like systems
+        os.chmod(pypirc_path, 0o600)
+    
+    return str(pypirc_path)
 
 
 def main():
@@ -84,12 +154,6 @@ def main():
         help="Strip metadata headers (title, URL source) from output file"
     )
     
-    # Add clipboard option
-    parser.add_argument(
-        "--clipboard", action="store_true",
-        help="Copy content to clipboard instead of saving to file"
-    )
-    
     # API key management
     parser.add_argument(
         "--api", metavar="KEY", 
@@ -98,6 +162,20 @@ def main():
     parser.add_argument(
         "--clear-api", action="store_true",
         help="Clear the saved Jina Reader API key"
+    )
+    
+    # PyPI token management
+    parser.add_argument(
+        "--pypi-token", metavar="TOKEN",
+        help="Save a PyPI token for package publishing"
+    )
+    parser.add_argument(
+        "--clear-pypi-token", action="store_true",
+        help="Clear the saved PyPI token"
+    )
+    parser.add_argument(
+        "--generate-pypirc", action="store_true",
+        help="Generate a .pypirc file using the saved PyPI token"
     )
     
     # Content Filtering and Customization options
@@ -153,8 +231,32 @@ def main():
         print(f"API key cleared from {config_path}")
         return 0
     
+    # Handle PyPI token operations
+    if args.pypi_token:
+        if not args.pypi_token.startswith("pypi-"):
+            print("Error: PyPI token must start with 'pypi-'", file=sys.stderr)
+            return 1
+        config_path = save_pypi_token(args.pypi_token)
+        print(f"PyPI token saved to {config_path}")
+        return 0
+    
+    if args.clear_pypi_token:
+        config_path = save_pypi_token("")
+        print(f"PyPI token cleared from {config_path}")
+        return 0
+    
+    if args.generate_pypirc:
+        token = get_pypi_token()
+        if not token:
+            print("Error: No PyPI token found. Save a token first with --pypi-token", file=sys.stderr)
+            return 1
+        
+        pypirc_path = generate_pypirc(token)
+        print(f"Generated .pypirc file at {pypirc_path}")
+        return 0
+    
     # Check if URL is provided when needed for content fetching
-    if not args.url and not (args.version or args.api or args.clear_api):
+    if not args.url and not (args.version or args.api or args.clear_api or args.pypi_token or args.clear_pypi_token or args.generate_pypirc):
         parser.print_help()
         return 1
     
@@ -213,25 +315,17 @@ def main():
         else:
             formatted_content = result["content"]
         
-        # Either save to file or copy to clipboard
-        if args.clipboard:
-            if copy_to_clipboard(formatted_content):
-                print(f"Content copied to clipboard")
-            else:
-                print(f"Failed to copy to clipboard. Please install pyperclip with: pip install pyperclip", file=sys.stderr)
-                return 1
-        else:
-            # Save markdown content
-            output_path = save_markdown(
-                result["content"], 
-                filename, 
-                args.url, 
-                result["title"], 
-                not args.no_metadata,
-                output_format=args.format
-            )
-            
-            print(f"Saved content to {output_path}")
+        # Save markdown content
+        output_path = save_markdown(
+            result["content"], 
+            filename, 
+            args.url, 
+            result["title"], 
+            not args.no_metadata,
+            output_format=args.format
+        )
+        
+        print(f"Saved content to {output_path}")
         
         return 0
     

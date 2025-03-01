@@ -48,6 +48,9 @@ setup(
             "flake8>=5.0.0",
         ],
         "ui": ["textual>=0.11.0"],
+        "full": [
+            "textual>=0.11.0",
+        ],
     },
     classifiers=[
         "Development Status :: 3 - Alpha",
@@ -60,6 +63,9 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Operating System :: OS Independent",
+        "Operating System :: Microsoft :: Windows",
+        "Operating System :: MacOS :: MacOS X",
+        "Operating System :: POSIX :: Linux",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Text Processing :: Markup :: Markdown",
         "Topic :: Utilities",

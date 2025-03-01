@@ -19,6 +19,8 @@
 
 SiteJuicer is a powerful command-line utility that converts web content to clean, readable formats like Markdown, HTML, and JSON using [Jina Reader](https://jina.ai/reader/). It helps extract valuable content from websites while removing clutter like ads, navigation menus, and other distractions.
 
+SiteJuicer is fully cross-platform, working seamlessly on Windows, macOS, and Linux systems.
+
 > **Perfect for**: Content extraction, web scraping, research, offline reading, and data collection.
 
 ## ✨ Features
@@ -101,6 +103,21 @@ sitejuicer --clear-api
 When an API key is configured, SiteJuicer will automatically use it to access the Jina Reader API with enhanced features. If there's an issue with the API key, SiteJuicer will gracefully fall back to the public service.
 
 API keys must be in the format `jina_XXXXXXXXXXXXXXXXXXXXXXXX_XXXXXXXXXXXXXXXX` and are stored securely at `~/.sitejuicer/config.ini` with restricted permissions.
+
+### Managing PyPI Tokens
+
+```bash
+# Save your PyPI token for package publishing
+sitejuicer --pypi-token pypi-YOUR_TOKEN_HERE
+
+# Clear a previously saved PyPI token
+sitejuicer --clear-pypi-token
+
+# Generate a .pypirc file using your saved token
+sitejuicer --generate-pypirc
+```
+
+This feature allows you to securely store your PyPI token and automatically generate a valid `.pypirc` file for publishing packages. The token is stored securely at `~/.sitejuicer/config.ini` with restricted permissions, and the generated `.pypirc` file will have appropriate permissions to protect your credentials.
 
 ### Output Format Options
 

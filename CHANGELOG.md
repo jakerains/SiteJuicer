@@ -5,6 +5,41 @@ All notable changes to SiteJuicer will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.6] - 2025-03-03
+
+### Added
+- PyPI token management functionality for package publishing
+- Commands to save, clear, and use PyPI tokens
+- Feature to generate `.pypirc` file automatically from the saved token
+- Cross-platform token handling with secure storage
+
+## [0.2.5] - 2025-03-02
+
+### Changed
+- Improved cross-platform compatibility for Windows and macOS
+- Made file permission handling compatible with Windows systems
+- Updated package classifiers to explicitly indicate Windows and macOS support
+
+## [0.2.4] - 2025-03-01
+
+### Removed
+- Removed clipboard functionality to simplify the codebase
+- Removed clipboard-related dependencies (pyperclip and pywin32)
+- Removed clipboard command-line option (--clipboard)
+- Removed Windows-specific clipboard handling
+
+## [0.2.3] - 2025-02-29
+
+### Fixed
+- Local Variable Access Error in Windows when using clipboard functionality
+- Added Windows-specific clipboard handling with pywin32 fallback
+- Improved clipboard initialization to prevent errors
+
+### Added
+- New optional dependencies: `clipboard` and `windows`
+- Platform-specific documentation for Windows users
+- Enhanced error handling for clipboard operations
+
 ## [0.2.2] - 2025-02-27
 
 ### Changed
