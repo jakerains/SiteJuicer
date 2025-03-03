@@ -30,6 +30,20 @@ SiteJuicer follows a modular architecture with the following main components:
 1. **Core Module (`core.py`)**: Contains the essential functionality for content fetching, processing, and saving.
 2. **CLI Module (`cli.py`)**: Implements the command-line interface, argument parsing, and execution flow.
 
+## Cross-Platform Compatibility
+
+SiteJuicer is designed to run seamlessly on multiple operating systems, including:
+
+- **Windows**: Full compatibility with Windows 10/11
+- **macOS**: Support for recent macOS versions
+- **Linux**: Support for major Linux distributions
+
+Key cross-platform considerations include:
+- Proper initialization of variables before use to prevent platform-specific errors
+- Defensive programming techniques to handle edge cases
+- Using os.path and pathlib for path handling instead of hardcoded separators
+- Safe file permissions handling compatible with various operating systems
+
 ## Component Overview
 
 ### Core Module

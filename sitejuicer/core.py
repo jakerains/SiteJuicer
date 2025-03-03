@@ -104,6 +104,9 @@ def fetch_content(url, options=None):
         response.raise_for_status()
         content = response.text
         
+        # Initialize title with a default value
+        title = "Untitled"
+        
         # Extract title from the first # heading if possible
         lines = content.split('\n')
         for line in lines:
@@ -148,6 +151,9 @@ def download_images(content, base_url, title, image_dir):
     Returns:
         str: Updated markdown with local image paths
     """
+    # Ensure title is a string
+    title = str(title) if title is not None else "untitled"
+    
     # Create image directory if it doesn't exist
     title_slug = title.lower().replace(" ", "_")
     title_slug = "".join(c for c in title_slug if c.isalnum() or c == "_")[:50]

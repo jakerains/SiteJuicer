@@ -287,7 +287,7 @@ def main():
             filename = args.output_pos
         else:
             # Use title or default to 'output'
-            if result["title"]:
+            if result.get("title"):
                 # Clean title for filename
                 filename = result["title"].lower().replace(" ", "_")
                 filename = "".join(c for c in filename if c.isalnum() or c == "_")[:50]
@@ -299,7 +299,7 @@ def main():
             formatted_content = format_markdown(
                 result["content"], 
                 args.url, 
-                result["title"], 
+                result.get("title"), 
                 not args.no_metadata
             )
         elif args.format == "html":
@@ -310,7 +310,7 @@ def main():
             formatted_content = convert_to_json(
                 strip_jina_metadata(result["content"]) if args.no_metadata else result["content"], 
                 args.url, 
-                result["title"]
+                result.get("title")
             )
         else:
             formatted_content = result["content"]
@@ -320,7 +320,7 @@ def main():
             result["content"], 
             filename, 
             args.url, 
-            result["title"], 
+            result.get("title"), 
             not args.no_metadata,
             output_format=args.format
         )

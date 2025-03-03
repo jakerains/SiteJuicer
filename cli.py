@@ -175,7 +175,7 @@ def main():
             filename = args.output_pos
         else:
             # Use title or default to 'output'
-            if result["title"]:
+            if result.get("title"):
                 # Clean title for filename
                 filename = result["title"].lower().replace(" ", "_")
                 filename = "".join(c for c in filename if c.isalnum() or c == "_")[:50]

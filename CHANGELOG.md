@@ -5,6 +5,14 @@ All notable changes to SiteJuicer will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- Fixed Windows-specific bug where uninitialized 'title' variable caused errors
+- Added proper initialization of title variable in the fetch_content function
+- Improved error handling when accessing the title attribute
+- Enhanced cross-platform compatibility between Windows and macOS
+
 ## [0.2.6] - 2025-03-03
 
 ### Added
